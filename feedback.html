@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Mael</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="feedback-form">
+        <h2>Feedback Form</h2>
+        <input type="text" id="feedback-name" placeholder="Your Name">
+        <textarea id="feedback-text" placeholder="Your Feedback"></textarea>
+        <button type="button">Submit</button>
+    </div>
+    <a href="index.html" class="back-link">Back to Chat</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+     // Send Feedback function
+     function sendFeedback() {
+         const userName = document.getElementById('feedback-name').value;
+         const feedbackText = document.getElementById('feedback-text').value;
+
+         if (userName.trim() === '' || feedbackText.trim() === '') {
+             alert('Please fill in all fields.');
+             return;
+         }
+
+         emailjs.init("lk1ZoaSjVaCKdbUDD"); // Use your EmailJS API Key here
+
+         const templateParams = {
+             name: userName,
+             message: feedbackText,
+             email: "umwamimael250@gmail.com" // Your email
+         };
+
+         emailjs.send('service_dobz8ym', 'template_8x1ggjw', templateParams)
+             .then(function(response) {
+                 alert('Feedback sent successfully!');
+                 console.log('SUCCESS!', response.status, response.text);
+             }, function(error) {
+                 alert('Failed to send feedback. Contact developer Umwamimael250@gmail.com.');
+                 console.error('FAILED...', error);
+             });
+     }
+
+     // Attach event listener to the submit button
+     document.querySelector('button').addEventListener('click', sendFeedback);
+ });
+    </script>
+</body>
+</html>
