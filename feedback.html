@@ -9,47 +9,36 @@
 </head>
 <body>
     <div id="particles-js"></div>
-    <div class="feedback-form">
+    <div class="feedback-form" id="form">
         <h2>Feedback Form</h2>
         <input type="text" id="feedback-name" placeholder="Your Name">
         <textarea id="feedback-text" placeholder="Your Feedback"></textarea>
-        <button type="button">Submit</button>
+        <button type="submit" id="button" value="Send Email">Submit</button>
     </div>
     <a href="index.html" class="back-link">Back to Chat</a>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-     // Send Feedback function
-     function sendFeedback() {
-         const userName = document.getElementById('feedback-name').value;
-         const feedbackText = document.getElementById('feedback-text').value;
+ const btn = document.getElementById('button');
 
-         if (userName.trim() === '' || feedbackText.trim() === '') {
-             alert('Please fill in all fields.');
-             return;
-         }
+document.getElementById('form')
+  .addEventListener('submit', function(event) {
+    event.preventDefault();
 
-         emailjs.init("lk1ZoaSjVaCKdbUDD"); // Use your EmailJS API Key here
+    btn.value = 'Sending...';
 
-         const templateParams = {
-             name: userName,
-             message: feedbackText,
-             email: "umwamimael250@gmail.com" // Your email
-         };
+    const serviceID = 'default_service';
+    const templateID = 'template_8x1ggjw';
 
-         emailjs.send('service_dobz8ym', 'template_8x1ggjw', templateParams)
-             .then(function(response) {
-                 alert('Feedback sent successfully!');
-                 console.log('SUCCESS!', response.status, response.text);
-             }, function(error) {
-                 alert('Failed to send feedback. Contact developer Umwamimael250@gmail.com.');
-                 console.error('FAILED...', error);
-             });
-     }
+    emailjs.sendForm(serviceID, templateID, this)
+      .then(() => {
+        btn.value = 'Send Email';
+        alert('Sent!');
+      }, (err) => {
+        btn.value = 'Send Email';
+        alert(JSON.stringify(err));
+      });
+  });
 
-     // Attach event listener to the submit button
-     document.querySelector('button').addEventListener('click', sendFeedback);
- });
     </script>
 </body>
 </html>
