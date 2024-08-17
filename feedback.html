@@ -4,24 +4,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback - Mael</title>
-    <link rel="stylesheet" href="styles.css">
-   <script type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="text/javascript">
-  emailjs.init('lk1ZoaSjVaCKdbUDD')
-</script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #form-container {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            position: relative;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #00c6ff;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background: linear-gradient(45deg, #0072ff, #00c6ff);
+        }
+
+        .back-to-chat {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .back-to-chat:hover {
+            background: #fff;
+            color: #0072ff;
+        }
+
+        /* Typing animation */
+        .typing-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.computerhope.com/jargon/c/code1.png') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 1;
+            animation: typing 10s infinite;
+        }
+
+        @keyframes typing {
+            0% { background-position: 0 0; opacity: 0.1; }
+            50% { background-position: 100% 0; opacity: 0.15; }
+            100% { background-position: 0 0; opacity: 0.1; }
+        }
+    </style>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
 </head>
 <body>
-    <div id="particles-js"></div>
-    <div class="feedback-form" id="form">
-        <h2>Feedback Form</h2>
-        <input type="text" id="feedback-name" placeholder="Your Name">
-        <textarea id="feedback-text" placeholder="Your Feedback"></textarea>
-        <button type="submit" id="button" value="Send Email">Submit</button>
-    </div>
-    <a href="index.html" class="back-link">Back to Chat</a>
+    <div class="typing-bg"></div>
 
-    <script src="scripts.js">
+    <div id="form-container">
+        <form id="form">
+            <div class="field">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" required>
+            </div>
+            <div class="field">
+                <label for="message">Message</label>
+                <input type="text" name="message" id="message" required>
+            </div>
+            <input type="submit" id="button" value="Send Email">
+        </form>
+
+        <a href="#" class="back-to-chat">Back to Chat</a>
+    </div>
+
+    <script type="text/javascript">
+        emailjs.init('lk1ZoaSjVaCKdbUDD');
+        const btn = document.getElementById('button');
+
+        document.getElementById('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            btn.value = 'Sending...';
+            const serviceID = 'default_service';
+            const templateID = 'template_8x1ggjw';
+
+            emailjs.sendForm(serviceID, templateID, this).then(() => {
+                btn.value = 'Send Email';
+                alert('Sent!');
+            }, (err) => {
+                btn.value = 'Send Email';
+                alert(JSON.stringify(err));
+            });
+        });
     </script>
 </body>
 </html>
